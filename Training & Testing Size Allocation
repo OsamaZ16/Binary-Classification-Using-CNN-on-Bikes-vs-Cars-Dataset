@@ -1,0 +1,16 @@
+#Scaling data between 0 and 1
+data= data.map(lambda x,y: (x/255,y))
+
+print(len(data))
+
+#Size allocation of training, val, and testing. IMP: Not the actual data being being allocated
+
+train_size=int(len(data)*.7)  
+val_size=int(len(data)*.2)+1
+test_size=int(len(data)*.1)
+
+print(train_size+val_size+test_size)
+
+train= data.take(train_size) #A
+val= data.skip(train_size).take(val_size)
+test= data.skip(train_size+val_size).take(test_size)
