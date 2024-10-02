@@ -1,0 +1,31 @@
+# CHANGE DIRECTORY IN PATH WHEN RUNNING THIS ON YOUR SYSTEM
+path=Path(r"C:\Users\Osama\Downloads\Car-Bike-Dataset")
+
+if not path.exists():
+    raise FileNotFoundError(f"The path {path} does not exist")
+
+subdirs = [f for f in path.iterdir() if f.is_dir()]
+if not subdirs:
+    raise ValueError(f"The path {path} does not contain any subdirectories for class labels")
+
+data=tf.keras.preprocessing.image_dataset_from_directory(path,shuffle=True) #Building the data pipeline. Extracts data images with labels. 
+#Important: the function above turns the total number of images into batches
+
+
+
+data_iterator= data.as_numpy_iterator() #Allows to access the data pipeline by looping through it
+
+batch=data_iterator.next() #Allows us to grab a batch. By default it's set to 32. Can verify by applying batch[0].shape
+#Everytime you run the above line, the next batch is fetched
+
+#batch[0] is image array. batch[1] is label array aligning to batch[0].
+
+
+#From visualization: 
+#Class 0= bike
+#Class 1= car
+
+fig, ax= plt.subplots(ncols=4, figsize=(20,20))
+for idx, img in enumerate(batch[0][:4]):
+    ax[idx].imshow(img.astype(int))
+    ax[idx].title.set_text(batch[1][idx])
