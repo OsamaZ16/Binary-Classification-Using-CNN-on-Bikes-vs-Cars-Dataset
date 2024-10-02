@@ -1,0 +1,22 @@
+
+# CHANGE DIRECTORY IN PATH WHEN RUNNING THIS ON YOUR SYSTEM
+dir=r"C:\Users\Osama\Downloads\Car-Bike-Dataset"
+
+image_exts = ['jpeg', 'jpg', 'bmp', 'png']
+image_extensions = [".png", ".jpg", ".jpeg", ".bmp"]
+
+for filepath in Path(dir).rglob("*"):
+    if filepath.suffix.lower() in image_extensions:
+        img_type = imghdr.what(filepath)
+        if img_type is None or img_type not in image_exts:
+            print(f"Deleting {filepath} - not a valid image")
+            os.remove(filepath)  # Deletes the invalid file
+
+for filepath in Path(dir).rglob("*"):
+    if filepath.suffix.lower() in image_extensions:
+        img_type = imghdr.what(filepath)
+        if img_type is None:
+            print(f"{filepath} is not an image")
+        elif img_type not in image_exts:
+            print(f"{filepath} is a {img_type}, not accepted by TensorFlow")
+
